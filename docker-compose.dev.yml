@@ -1,0 +1,83 @@
+version: "3"
+
+networks:
+  myapp-network:
+
+volumes:
+  node-modules:
+  db-store:
+
+services:
+  web:
+    container_name: nginx
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    environment:
+      - TZ=${TZ}
+    volumes_from:
+      - backend
+    volumes:
+      - ./web/log:/var/log/nginx
+    ports:
+      - "${APP_PORT}:80"
+    networks:
+      - myapp-network
+    depends_on:
+      - frontend
+      - backend
+
+  frontend:
+    container_name: next
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ./frontend/next-app:/app/next-app
+      - node-modules:/app/next-app/node_modules # Volume Trick
+    networks:
+      - myapp-network
+    tty: true
+    depends_on:
+      - backend
+
+  backend:
+    container_name: rails
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    environment:
+      - TZ=${TZ}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_ADDRESS=${EMAIL_ADDRESS}
+      - EMAIL_DOMAIN=${EMAIL_DOMAIN}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_AUTH=${EMAIL_AUTH}
+    volumes:
+      - ./backend/rails-app:/app/rails-app
+    networks:
+      - myapp-network
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    container_name: postgres
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    environment:
+      - TZ=${TZ}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - myapp-network

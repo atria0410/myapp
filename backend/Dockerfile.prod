@@ -1,0 +1,18 @@
+FROM ruby:3.2.2
+
+WORKDIR /app/rails-app
+
+ENV RAILS_ENV production
+ENV RUBYOPT -EUTF-8
+ENV EDITOR vi
+
+RUN apt update && \
+    apt install -y vim
+
+COPY rails-app /app/rails-app
+RUN bundle install
+
+VOLUME /app/rails-app/public
+VOLUME /app/rails-app/tmp
+
+CMD ["bundle", "exec", "puma"]

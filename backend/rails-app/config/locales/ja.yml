@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    attributes:
+      # 共通アトリビュート
+      created_at: 作成日時
+      updated_at: 更新日時
+
+      # ユーザー
+      user:
+        first_name: 名前
+        last_name: 苗字
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）

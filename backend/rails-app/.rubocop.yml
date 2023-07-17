@@ -1,0 +1,8 @@
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Documentation:
+  Enabled: false
+ClassAndModuleChildren:
+  EnforcedStyle: compact
+Metrics/AbcSize:
+  Max: 25

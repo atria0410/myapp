@@ -1,0 +1,32 @@
+{
+  "name": "frontend",
+  "dockerComposeFile": "../docker-compose.dev.yml",
+  "service": "frontend",
+  "shutdownAction": "none",
+  "workspaceFolder": "/app/next-app",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "shardulm94.trailing-spaces",
+        "dsznajder.es7-react-js-snippets",
+        "rettimo.nextjs-vscode-snippets",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ],
+
+      "settings": {
+        "editor.tabSize": 2,
+        "editor.guides.bracketPairs": true,
+        "editor.bracketPairColorization.enabled": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true
+        },
+        "cSpell.words": ["toastify"]
+      }
+    }
+  }
+}
