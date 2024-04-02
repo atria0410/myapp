@@ -7,7 +7,7 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        // "esbenp.prettier-vscode",
+        "esbenp.prettier-vscode",
         "streetsidesoftware.code-spell-checker",
         "shardulm94.trailing-spaces",
         "wayou.vscode-todo-highlight",
@@ -16,12 +16,8 @@
         "vuetifyjs.vuetify-vscode"
       ],
       "settings": {
-        // "editor.defaultFormatter": "esbenp.prettier-vscode",
-        // "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-          "source.fixAll": "never",
-          "source.fixAll.eslint": "explicit"
-        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
         "cSpell.words": ["nuxt", "nuxtjs", "vuetify"]
       }
     }
