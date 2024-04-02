@@ -13,12 +13,14 @@
         "wayou.vscode-todo-highlight",
         "dbaeumer.vscode-eslint",
         "vue.volar",
-        "vuetifyjs.vuetify-vscode"
+        "vuetifyjs.vuetify-vscode",
+        "Prisma.prisma"
       ],
       "settings": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.formatOnSave": true,
-        "cSpell.words": ["nuxt", "nuxtjs", "vuetify"]
+        "cSpell.words": ["nuxt", "nuxtjs", "vuetify"],
+        "[prisma]": { "editor.defaultFormatter": "Prisma.prisma" }
       }
     }
   }
