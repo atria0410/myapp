@@ -19,6 +19,8 @@ model User {
   hashedPassword String?  @map("hashed_password")
   firstName      String   @map("first_name")
   lastName       String   @map("last_name")
+  birthdate      DateTime @db.Date
+  sessionId      String?  @map("session_id")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
