@@ -17,6 +17,7 @@
         "Prisma.prisma"
       ],
       "settings": {
+        "editor.tabSize": 2,
         "editor.defaultFormatter": "esbenp.prettier-vscode",
         "editor.formatOnSave": true,
         "cSpell.words": ["nuxt", "nuxtjs", "vuetify"],

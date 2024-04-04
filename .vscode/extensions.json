@@ -3,8 +3,11 @@
     "ms-azuretools.vscode-docker",
     "ms-vscode-remote.remote-containers",
     "irongeek.vscode-env",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
     "shardulm94.trailing-spaces",
     "streetsidesoftware.code-spell-checker",
-    "pkief.material-icon-theme"
+    "pkief.material-icon-theme",
+    "ahmadalli.vscode-nginx-conf"
   ]
 }

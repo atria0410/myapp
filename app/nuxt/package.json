@@ -8,28 +8,36 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "test": "vitest",
     "format": "prettier . --write",
     "fix": "eslint --fix --ignore-path .gitignore . && prettier . --write"
   },
   "prisma": {
-    "seed": "tsx prisma/seeds/seed.ts"
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@prisma/client": "5.12.0",
     "nuxt": "^3.11.1",
     "prisma": "^5.12.0",
+    "sass": "^1.74.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@nuxt/eslint-config": "^0.2.0",
+    "@nuxt/test-utils": "^3.12.0",
+    "@testing-library/vue": "^8.0.3",
+    "@vue/test-utils": "^2.4.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
+    "happy-dom": "^14.4.0",
+    "playwright-core": "^1.42.1",
     "prettier": "^3.2.5",
     "tsx": "^4.7.1",
     "vite-plugin-vuetify": "^2.0.3",
+    "vitest": "^1.4.0",
     "vuetify": "^3.5.14"
   }
 }

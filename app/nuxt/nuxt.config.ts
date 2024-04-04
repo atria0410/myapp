@@ -12,7 +12,8 @@ export default defineNuxtConfig({
         // @ts-expect-error
         config.plugins.push(vuetify({ autoImport: true }))
       })
-    }
+    },
+    '@nuxt/test-utils/module'
   ],
   vite: {
     vue: {
