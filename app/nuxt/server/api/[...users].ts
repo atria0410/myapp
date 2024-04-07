@@ -48,4 +48,19 @@ router.get(
   })
 )
 
+router.post(
+  '/',
+  defineEventHandler(async (event) => {})
+)
+
+router.put(
+  '/:id',
+  defineEventHandler(async (event) => {})
+)
+
+router.delete(
+  '/:id',
+  defineEventHandler(async (event) => {})
+)
+
 export default useBase('/api/users', router.handler)

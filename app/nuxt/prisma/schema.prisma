@@ -16,10 +16,11 @@ datasource db {
 model User {
   id             Int      @id @default(autoincrement())
   email          String   @unique
-  hashedPassword String?  @map("hashed_password")
+  hashedPassword String   @map("hashed_password")
   firstName      String   @map("first_name")
   lastName       String   @map("last_name")
   birthdate      DateTime @db.Date
+  gender         String   @db.Char(1)
   sessionId      String?  @map("session_id")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
