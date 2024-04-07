@@ -100,50 +100,105 @@ import type { VDataTableServer } from 'vuetify/components'
 import dayjs from 'dayjs'
 
 const headers: VDataTableServer['$props']['headers'] = [
-  {
-    title: 'ID',
-    key: 'id',
-    sortable: true,
-    align: 'start'
-  },
-  {
-    title: 'First name',
-    key: 'firstName',
-    sortable: true,
-    align: 'start'
-  },
-  {
-    title: 'Last name',
-    key: 'lastName',
-    sortable: true,
-    align: 'start'
-  },
-  {
-    title: 'Gender',
-    key: 'gender',
-    sortable: true,
-    align: 'center'
-  },
-  {
-    title: 'birthdate',
-    key: 'birthdate',
-    sortable: true,
-    align: 'center'
-  },
-  {
-    title: 'Created at',
-    key: 'createdAt',
-    sortable: true,
-    align: 'center'
-  },
-  {
-    title: 'Updated at',
-    key: 'updatedAt',
-    sortable: true,
-    align: 'center'
-  },
+  { title: 'ID', key: 'id', sortable: true, align: 'start' },
+  { title: 'First name', key: 'firstName', sortable: true, align: 'start' },
+  { title: 'Last name', key: 'lastName', sortable: true, align: 'start' },
+  { title: 'Gender', key: 'gender', sortable: true, align: 'center' },
+  { title: 'birthdate', key: 'birthdate', sortable: true, align: 'center' },
+  { title: 'Created at', key: 'createdAt', sortable: true, align: 'center' },
+  { title: 'Updated at', key: 'updatedAt', sortable: true, align: 'center' },
   { title: 'Actions', key: 'actions', sortable: false, align: 'center' }
 ]
+
+const userDefault = {
+  id: null,
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  passwordConfirmation: '',
+  birthdate: new Date(),
+  gender: '1'
+} as User
+
+const user = ref<User>(userDefault)
+const users = ref<User[]>([])
+const totalUsers = ref<number>(0)
+const loading = ref<boolean>(false)
+const dialog = ref<boolean>(false)
+const form = ref()
+
+let options: Options = { page: 1, itemsPerPage: 10, sortBy: [] }
+
+const loadUsers = async ({ page, itemsPerPage, sortBy }: Options) => {
+  loading.value = true
+
+  options = { ...{ page, itemsPerPage, sortBy } }
+
+  const response = await $fetch('/api/users', {
+    method: 'GET',
+    params: {
+      skip: (page - 1) * itemsPerPage,
+      take: itemsPerPage,
+      sortKey: sortBy[0]?.key,
+      sortOrder: sortBy[0]?.order
+    }
+  })
+  users.value = response.users.map((user: User) => {
+    user.birthdate = new Date(user.birthdate as Date)
+    user.createdAt = new Date(user.createdAt as Date)
+    user.updatedAt = new Date(user.updatedAt as Date)
+    return user
+  })
+  totalUsers.value = response.totalLength
+  loading.value = false
+}
+
+const clickNew = () => {
+  user.value = { ...userDefault }
+  dialog.value = true
+}
+
+const clickEdit = (item: User) => {
+  user.value = { ...item }
+  dialog.value = true
+}
+
+const registerUser = async () => {
+  const { valid } = await form.value.validate()
+  if (!valid) return
+
+  await $fetch('/api/users', {
+    method: 'POST',
+    body: user.value
+  })
+  loadUsers(options)
+  closeDialog()
+}
+
+const updateUser = async () => {
+  const { valid } = await form.value.validate()
+  if (!valid) return
+
+  await $fetch(`/api/users/${user.value.id}`, {
+    method: 'PUT',
+    body: user.value
+  })
+  loadUsers(options)
+  closeDialog()
+}
+
+const deleteUser = async () => {
+  await $fetch(`/api/users/${user.value.id}`, {
+    method: 'DELETE'
+  })
+  loadUsers(options)
+  closeDialog()
+}
+
+const closeDialog = () => {
+  dialog.value = false
+}
 
 const rules = {
   firstName: [
@@ -187,101 +242,5 @@ const rules = {
       return 'You must enter a birthdate.'
     }
   ]
-}
-
-type User = {
-  id: number
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  passwordConfirmation: string
-  birthdate: Date
-  gender: string
-}
-
-const userDefault: User = {
-  id: null,
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  passwordConfirmation: '',
-  birthdate: new Date(),
-  gender: '1'
-}
-
-const users = ref<VDataTableServer['$props']['items']>([])
-const totalUsers = ref<VDataTableServer['$props']['itemsLength']>(0)
-const loading = ref<VDataTableServer['$props']['loading']>(false)
-const user = ref<User>(userDefault)
-const dialog = ref<boolean>(false)
-const form = ref()
-
-let options = {}
-
-const loadUsers = async ({ page, itemsPerPage, sortBy }: any) => {
-  loading.value = true
-
-  options = { ...{ page, itemsPerPage, sortBy } }
-
-  const response = await $fetch('/api/users', {
-    method: 'GET',
-    params: {
-      skip: (page - 1) * itemsPerPage,
-      take: itemsPerPage,
-      sortKey: sortBy[0]?.key,
-      sortOrder: sortBy[0]?.order
-    }
-  })
-  users.value = response.users
-  totalUsers.value = response.totalLength
-  loading.value = false
-}
-
-const clickNew = () => {
-  user.value = { ...userDefault }
-  dialog.value = true
-}
-
-const clickEdit = (item) => {
-  user.value = { ...item }
-  dialog.value = true
-}
-
-const registerUser = async () => {
-  const { valid } = await form.value.validate()
-  if (!valid) return
-
-  await $fetch('/api/users', {
-    method: 'POST',
-    body: user.value
-  })
-  loadUsers(options)
-  closeDialog()
-}
-
-const updateUser = async () => {
-  const { valid } = await form.value.validate()
-  if (!valid) return
-
-  await $fetch(`/api/users/${user.value.id}`, {
-    method: 'PUT',
-    body: user.value
-  })
-  loadUsers(options)
-  closeDialog()
-}
-
-const deleteUser = async () => {
-  await $fetch(`/api/users/${user.value.id}`, {
-    method: 'DELETE'
-  })
-  loadUsers(options)
-  closeDialog()
-}
-
-const closeDialog = () => {
-  dialog.value = false
 }
 </script>

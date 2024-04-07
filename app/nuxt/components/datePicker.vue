@@ -28,7 +28,7 @@ interface Props {
   color?: string
   format?: string
   clearable?: boolean
-  locale: string
+  locale?: string
   rules: VTextField['$props']['rules']
 }
 
