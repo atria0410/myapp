@@ -7,8 +7,8 @@ type User = {
   passwordConfirmation: string
   birthdate: Date
   gender: '1' | '2'
-  createdAt: Date | null
-  updatedAt: Date | null
+  createdAt: Date
+  updatedAt: Date
 }
 
 type SortBy = {
@@ -21,3 +21,5 @@ type Options = {
   itemsPerPage: number
   sortBy: SortBy
 }
+
+type FormDialogMode = 'new' | 'edit'
